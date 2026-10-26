@@ -97,7 +97,7 @@ public class Test {
 		
 		JButton solveKwk = new JButton("Solve");
 		
-		JTextField limitResultText = new JTextField("Nummer an Lösungen:",6);
+		JLabel limitResultText = new JLabel("Nummer an maximalen Lösungen:");
 		
 		JSpinner limitResultButton = new JSpinner();
 		
