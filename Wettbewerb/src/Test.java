@@ -105,9 +105,13 @@ public class Test {
 		
 		JPanel resultOptionsPanel = new JPanel();
 		
-		resultOptionsPanel.setLayout(new GridLayout(0,1,0,2));
+		resultOptionsPanel.setLayout(new GridBagLayout());
 		
 		JScrollPane resultOptionsScroller = new JScrollPane(resultOptionsPanel);
+		
+		resultOptionsScroller.setPreferredSize(new Dimension(125,200));
+		
+		resultOptionsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		loadKwkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -144,9 +148,12 @@ public class Test {
 							resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
 						}
 					});
-					resultOptionsPanel.add(resultOptionButton);
+					gbcon.fill = GridBagConstraints.BOTH;
+					addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
+					gbcon.fill = GridBagConstraints.BOTH;
+					System.out.println(resultOptionsPanel.getPreferredSize());
 					resultPane.setStyledDocument(new ResultDocument(kwk,0));
-				
+					
 					
 				
 				}
@@ -160,19 +167,24 @@ public class Test {
 		
 		gbcon.fill = GridBagConstraints.BOTH;
 		
-		addToGrid(mainPanel,inputPane,0,0,1,3,0.3,0);
-
-		addToGrid(mainPanel,loadKwkButton,1,0,2,1,0.3,0.5);
-		addToGrid(mainPanel,solveKwk,1,1,2,1,0.3,0.5);
-		addToGrid(mainPanel,limitResultText,1,2,1,1,0.9,0.2);
-		addToGrid(mainPanel,limitResultButton,2,2,1,1,0.2,0.2);
+		JPanel inputButtonsPanel = new JPanel();
+		inputButtonsPanel.setLayout(new GridBagLayout());
+		addToGrid(inputButtonsPanel,loadKwkButton,0,0,2,1,1,1);
+		addToGrid(inputButtonsPanel,solveKwk,0,1,2,1,1,1);
+		addToGrid(inputButtonsPanel,limitResultText,0,3,1,1,1,1);
+		addToGrid(inputButtonsPanel,limitResultButton,1,3,1,1,1,1);
 		
-		addToGrid(mainPanel,resultOptionsScroller,0,3,3,1,0.3,0);
-
-
-		addToGrid(mainPanel,previewPane,3,0,1,3,0.3,0);
 		
-		addToGrid(mainPanel,resultPane,3,3,1,1,0.3,0);
+		addToGrid(mainPanel,inputPane,0,0,1,1,1,1);
+
+		addToGrid(mainPanel,inputButtonsPanel,1,0,1,1,1,1);
+		
+		addToGrid(mainPanel,resultOptionsScroller,0,3,3,1,1,1);
+
+
+		addToGrid(mainPanel,previewPane,3,0,1,1,1,1);
+		
+		addToGrid(mainPanel,resultPane,3,3,1,1,1,1);
 	
 		
 	
