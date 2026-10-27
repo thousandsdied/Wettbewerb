@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -35,11 +37,13 @@ public class Test {
 
 		JTextPane resultPane = new JTextPane(new ResultDocument());
 		
-		resultPane.setPreferredSize(new Dimension(325,275));
+		//resultPane.setPreferredSize(new Dimension(325,275));
 		
 		resultPane.setEditable(false);
 
+		resultPane.setBorder(BorderFactory.createTitledBorder("Visuelle Lösung"));
 		
+		resultPane.setOpaque(false);
 		
 		EditorDocument editDoc = new EditorDocument();
 		
@@ -47,59 +51,35 @@ public class Test {
 		
 		JTextPane previewPane = new JTextPane();
 		
+		editDoc.setPreviewPane(previewPane);
+		
 		previewPane.setStyledDocument(prevDoc);
 		
 		previewPane.setEditable(false);
 		
+		previewPane.setBorder(BorderFactory.createTitledBorder("Vorschau"));
 		
+		previewPane.setOpaque(false);
 		
-		editDoc.addDocumentListener(new DocumentListener() {
-			public void insertUpdate(DocumentEvent e){checkIfValidKwk();}
-
-			public void removeUpdate(DocumentEvent e){checkIfValidKwk();}
-			
-			public void changedUpdate(DocumentEvent e){checkIfValidKwk();}
-			
-			private void checkIfValidKwk() {
-				
-				String validLetters = "[A-ZÖAÜ.]";
-					
-				Pattern p1 = Pattern.compile(validLetters+validLetters+validLetters+validLetters);
-				Pattern p2 = Pattern.compile("#"+validLetters+validLetters+"#");
-				try {
-				
-					if(p2.matcher(editDoc.getText(0,4)).matches() && p1.matcher(editDoc.getText(5,4)).matches() && p1.matcher(editDoc.getText(10,4)).matches() && p2.matcher(editDoc.getText(15,4)).matches()) {
-
-						previewPane.setStyledDocument(new PreviewDocument(editDoc.allText()));
-						
-					}
-				}
-				//Wirft Exception wenn Datei geladen wird, kann ignoriert werden
-				catch(BadLocationException e) {}
-			
-			}
-		});
+		//previewPane.setPreferredSize(new Dimension(235,275));
 		
 		JTextPane inputPane = new JTextPane(editDoc);
 		
-		inputPane.setPreferredSize(new Dimension(150,250));
+		//inputPane.setPreferredSize(new Dimension(150,300));
 		
-		
-		
-			
-	
-		
-		
+		inputPane.setBorder(BorderFactory.createTitledBorder("Eingabe"));
 
 		JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
 		
-		JButton loadKwkButton = new JButton("Load");
+		JButton loadKwkButton = new JButton("Lade Textdatei");
 		
-		JButton solveKwk = new JButton("Solve");
+		JButton solveKwk = new JButton("Löse Rätsel");
 		
 		JLabel limitResultText = new JLabel("Nummer an maximalen Lösungen:");
 		
 		JSpinner limitResultButton = new JSpinner();
+		
+		//limitResultButton.setPreferredSize(new Dimension(40,20));
 		
 		limitResultButton.setValue(10);
 		
@@ -109,7 +89,10 @@ public class Test {
 		
 		JScrollPane resultOptionsScroller = new JScrollPane(resultOptionsPanel);
 		
-		resultOptionsScroller.setPreferredSize(new Dimension(125,200));
+		resultOptionsScroller.setBorder(BorderFactory.createTitledBorder("Lösungsauswahl"));
+		
+		
+		//resultOptionsScroller.setPreferredSize(new Dimension(100,200));
 		
 		resultOptionsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
@@ -127,35 +110,44 @@ public class Test {
 				
 				resultOptionsPanel.removeAll();
 				
-				Kreuzwortkreuz kwk = new Kreuzwortkreuz(editDoc);
+				if((Integer)limitResultButton.getValue()>0) {
 				
-				int limit = Math.min((Integer) limitResultButton.getValue(),kwk.getPossibleCombinations().size());
+					Kreuzwortkreuz kwk = new Kreuzwortkreuz(editDoc,(Integer)limitResultButton.getValue());
+					
+					for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {
+						
+						String[] result=kwk.getPossibleCombinations().get(i);
+						
+						System.out.println(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
+						
+						JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
+						
+						//resultOptionButton.setPreferredSize(new Dimension(100,40));
+						
+						int currentIndex = i;
+						
+						resultOptionButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
+							}
+						});
+						gbcon.fill = GridBagConstraints.BOTH;
+						addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
+						gbcon.fill = GridBagConstraints.BOTH;
+						resultOptionsPanel.revalidate();
+						resultOptionsPanel.repaint();
+						resultPane.setStyledDocument(new ResultDocument(kwk,0));
+						
+					}
+					
+				}
 				
-				for(int i = 0 ; i<limit ; i++) {
-					
-					String[] result=kwk.getPossibleCombinations().get(i);
-					
-					System.out.println(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-					
-					JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-					
-					resultOptionButton.setPreferredSize(new Dimension(100,40));
-					
-					int currentIndex = i;
-					
-					resultOptionButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
-						}
-					});
+				else {
 					gbcon.fill = GridBagConstraints.BOTH;
-					addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
+					addToGrid(resultOptionsPanel, new JLabel("Bitte gebe eine ganze positive Zahl an"), 0, 0, 1, 1, 1, 1); 
 					gbcon.fill = GridBagConstraints.BOTH;
-					System.out.println(resultOptionsPanel.getPreferredSize());
-					resultPane.setStyledDocument(new ResultDocument(kwk,0));
-					
-					
-				
+					resultOptionsPanel.revalidate();
+					resultOptionsPanel.repaint();
 				}
 			}
 		});
@@ -195,6 +187,10 @@ public class Test {
 		mainFrame.setVisible(true);
 		
 		mainFrame.setResizable(false);
+		
+		System.out.println(inputPane.getSize());
+		
+		System.out.println(resultOptionsScroller.getSize());
 		
 	}
 	

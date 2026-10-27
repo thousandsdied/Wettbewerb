@@ -139,7 +139,7 @@ public class ResultDocument extends DefaultStyledDocument{
 			}
 			else if (pattern1.charAt(2)==word1.charAt(2)) {
 				addText("|", commonC,false);
-				addText(word1.substring(2,3),c2,false);
+				addText(word1.substring(2,3),c1,false);
 				addText("/",commonC,false);
 				addText(word4.substring(1,2),c4,false);
 			}

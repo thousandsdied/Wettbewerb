@@ -23,13 +23,16 @@ public class PreviewDocument extends DefaultStyledDocument{
 		StyleConstants.setFontFamily(sat, "Lucida Console");
 		
 		try (Scanner scanner = new Scanner(editor)) {
+			
+			StyleConstants.setFontSize(sat,10);
 
+			addText("  ---------------------------------------------------------------------------------");
 			
 			while (scanner.hasNextLine()) {
 
-				StyleConstants.setFontSize(sat,10);
+				
 					
-				addText("\n  ---------------------------------------------------------------------------------\n");
+				addText("\n");
 
 				StyleConstants.setFontSize(sat,50);
 						
@@ -37,15 +40,16 @@ public class PreviewDocument extends DefaultStyledDocument{
 					
 				for(char c : scanner.nextLine().toCharArray()) {
 						
-					addText(" "+c+" |");
+					addText(" "+Character.toUpperCase(c)+" |");
 						
 				}
 				
+				StyleConstants.setFontSize(sat,10);
+				
+				addText("\n  ---------------------------------------------------------------------------------");
+				
 			}
 		}
-		
-		StyleConstants.setFontSize(sat,10);	
-		addText("\n  ---------------------------------------------------------------------------------");
 			
 		
 		

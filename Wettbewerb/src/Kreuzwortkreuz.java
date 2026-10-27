@@ -16,11 +16,13 @@ public class Kreuzwortkreuz {
 	
 	private ArrayList<String[]> possibleCombinations = new ArrayList<String[]>();
 	
+	private int limit;
 	
 	//Parametrisierter Konstruktur mit Dateiangabe
 	
-	public Kreuzwortkreuz(EditorDocument kreuzEditor) {
+	public Kreuzwortkreuz(EditorDocument kreuzEditor, int limit) {
 		this.kreuzEditor=kreuzEditor;
+		this.limit=limit;
 		read();
 		createPatterns();
 		createPossibleWordLists();
@@ -42,7 +44,7 @@ public class Kreuzwortkreuz {
 			int i = 0;
 				
 			while (scanner.hasNextLine()) {
-				readIn[i] = scanner.nextLine();
+				readIn[i] = scanner.nextLine().toUpperCase();
 				System.out.println(readIn[i]);
 				i++;
 			}
@@ -129,7 +131,11 @@ public class Kreuzwortkreuz {
 		String cTemp=p3;
 		String dTemp=p4;
 		
+		int counter = 0;
+		
 		for(String a : wordLists.get(0)) {
+			
+			
 				
 			if (p1.charAt(1)==a.charAt(1)) {cTemp=cTemp.substring(0,1)+"."+cTemp.substring(2,4); }
 			
@@ -180,6 +186,14 @@ public class Kreuzwortkreuz {
 								String[] result = {a,b,c,d};
 								
 								possibleCombinations.add(result);
+								
+								counter++;
+								
+								if(counter==limit) {
+									
+									return;
+									
+								}
 								
 							}
 								
