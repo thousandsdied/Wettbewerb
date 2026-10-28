@@ -12,64 +12,43 @@ import java.util.Scanner;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleConstants;
 
-public class PreviewDocument extends DefaultStyledDocument{
+public class PreviewDocument extends MyStyledDocument{
 
-	SimpleAttributeSet sat;
+	final int LETTERSIZE = 50;
+	final int DASHSIZE = 10;
+	
 	
 	PreviewDocument(String editor){
-		
 		sat = new SimpleAttributeSet();
 		
 		StyleConstants.setFontFamily(sat, "Lucida Console");
 		
 		try (Scanner scanner = new Scanner(editor)) {
 			
-			StyleConstants.setFontSize(sat,10);
+			StyleConstants.setFontSize(sat,DASHSIZE);
 
 			addText("  ---------------------------------------------------------------------------------");
 			
 			while (scanner.hasNextLine()) {
-
-				
-					
+		
 				addText("\n");
 
-				StyleConstants.setFontSize(sat,50);
+				StyleConstants.setFontSize(sat,LETTERSIZE);
 						
 				addText("|");
 					
-				for(char c : scanner.nextLine().toCharArray()) {
-						
-					addText(" "+Character.toUpperCase(c)+" |");
-						
+				for(char c : scanner.nextLine().toCharArray()) {		
+					addText(" "+Character.toUpperCase(c)+" |");		
 				}
 				
-				StyleConstants.setFontSize(sat,10);
+				StyleConstants.setFontSize(sat,DASHSIZE);
 				
-				addText("\n  ---------------------------------------------------------------------------------");
-				
+				addText("\n  ---------------------------------------------------------------------------------");	
 			}
 		}
-			
-		
-		
-	}
-		
-	private void addText (String s) {
-		try {
-	
-		insertString(getLength(),s,sat);
-		
-		}
-		catch(BadLocationException e){
-			System.out.println("test");
-		}
 	}
 	
-	public boolean checkValidInput() {
-		
-		return true;
-		
-	}
 	
+	PreviewDocument(){	
+	}
 }

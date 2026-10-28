@@ -35,176 +35,57 @@ public class Test {
 		
 		mainPanel.setLayout(new GridBagLayout());
 
-		JTextPane resultPane = new JTextPane(new ResultDocument());
 		
-		//resultPane.setPreferredSize(new Dimension(325,275));
+		//Zeigt eine mögliche Lösung visuell an
+		ResultPane resultPane = new ResultPane();
 		
-		resultPane.setEditable(false);
+		//Zeigt das Kwk visuall an
+		PreviewPane previewPane = new PreviewPane();
+		
+		//Bearbeibares Textfeld, mit dem man manuell das Kwk bearbeiten kann
+		EditorPane editorPane = new EditorPane(previewPane);
 
-		resultPane.setBorder(BorderFactory.createTitledBorder("Visuelle Lösung"));
-		
-		resultPane.setOpaque(false);
-		
-		EditorDocument editDoc = new EditorDocument();
-		
-		PreviewDocument prevDoc = new PreviewDocument(editDoc.allText());
-		
-		JTextPane previewPane = new JTextPane();
-		
-		editDoc.setPreviewPane(previewPane);
-		
-		previewPane.setStyledDocument(prevDoc);
-		
-		previewPane.setEditable(false);
-		
-		previewPane.setBorder(BorderFactory.createTitledBorder("Vorschau"));
-		
-		previewPane.setOpaque(false);
-		
-		//previewPane.setPreferredSize(new Dimension(235,275));
-		
-		JTextPane inputPane = new JTextPane(editDoc);
-		
-		//inputPane.setPreferredSize(new Dimension(150,300));
-		
-		inputPane.setBorder(BorderFactory.createTitledBorder("Eingabe"));
-
-		JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-		
-		JButton loadKwkButton = new JButton("Lade Textdatei");
-		
-		JButton solveKwk = new JButton("Löse Rätsel");
-		
+		//Limitiert die Anzahl an ausgegebenen Lösungen, um Zeit/Ressourcen zu sparen
 		JLabel limitResultText = new JLabel("Nummer an maximalen Lösungen:");
-		
 		JSpinner limitResultButton = new JSpinner();
-		
-		//limitResultButton.setPreferredSize(new Dimension(40,20));
-		
 		limitResultButton.setValue(10);
 		
+		//Zeigt mögliche Lösungen als 4 Wörter an, raufclicken um visuelle Lösung anzuzeigen
 		JPanel resultOptionsPanel = new JPanel();
-		
 		resultOptionsPanel.setLayout(new GridBagLayout());
-		
 		JScrollPane resultOptionsScroller = new JScrollPane(resultOptionsPanel);
-		
 		resultOptionsScroller.setBorder(BorderFactory.createTitledBorder("Lösungsauswahl"));
-		
-		
-		//resultOptionsScroller.setPreferredSize(new Dimension(100,200));
-		
 		resultOptionsScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		loadKwkButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(fc.showOpenDialog(mainPanel)==JFileChooser.APPROVE_OPTION) {
-					editDoc.loadFile(fc.getSelectedFile());
+		//Lädt txt-Dateien in den Editor ein zum schnellen Wechsel zwischen Kwks
+		JButton loadKwkButton = new LoadButton(mainPanel,(EditorDocument) editorPane.getStyledDocument());
 
-				}
-			}
-		});
-
-		solveKwk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				resultOptionsPanel.removeAll();
-				
-				if((Integer)limitResultButton.getValue()>0) {
-				
-					Kreuzwortkreuz kwk = new Kreuzwortkreuz(editDoc,(Integer)limitResultButton.getValue());
-					
-					for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {
-						
-						String[] result=kwk.getPossibleCombinations().get(i);
-						
-						System.out.println(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-						
-						JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-						
-						//resultOptionButton.setPreferredSize(new Dimension(100,40));
-						
-						int currentIndex = i;
-						
-						resultOptionButton.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
-							}
-						});
-						gbcon.fill = GridBagConstraints.BOTH;
-						addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
-						gbcon.fill = GridBagConstraints.BOTH;
-						resultOptionsPanel.revalidate();
-						resultOptionsPanel.repaint();
-						resultPane.setStyledDocument(new ResultDocument(kwk,0));
-						
-					}
-					
-				}
-				
-				else {
-					gbcon.fill = GridBagConstraints.BOTH;
-					addToGrid(resultOptionsPanel, new JLabel("Bitte gebe eine ganze positive Zahl an"), 0, 0, 1, 1, 1, 1); 
-					gbcon.fill = GridBagConstraints.BOTH;
-					resultOptionsPanel.revalidate();
-					resultOptionsPanel.repaint();
-				}
-			}
-		});
-		
-		
-		
-		
-		
-		
-		gbcon.fill = GridBagConstraints.BOTH;
+		//Löst den Lösungsalgorithmus aus
+		JButton solveKwk = new SolveButton((EditorDocument) editorPane.getStyledDocument(), limitResultButton, resultOptionsPanel, resultPane);
 		
 		JPanel inputButtonsPanel = new JPanel();
 		inputButtonsPanel.setLayout(new GridBagLayout());
-		addToGrid(inputButtonsPanel,loadKwkButton,0,0,2,1,1,1);
-		addToGrid(inputButtonsPanel,solveKwk,0,1,2,1,1,1);
-		addToGrid(inputButtonsPanel,limitResultText,0,3,1,1,1,1);
-		addToGrid(inputButtonsPanel,limitResultButton,1,3,1,1,1,1);
 		
+		//Formatierungen für Swing
+		UniversalFunctions.addToGrid(inputButtonsPanel,loadKwkButton,0,0,2,1,1,1);
+		UniversalFunctions.addToGrid(inputButtonsPanel,solveKwk,0,1,2,1,1,1);
+		UniversalFunctions.addToGrid(inputButtonsPanel,limitResultText,0,3,1,1,1,1);
+		UniversalFunctions.addToGrid(inputButtonsPanel,limitResultButton,1,3,1,1,1,1);	
 		
-		addToGrid(mainPanel,inputPane,0,0,1,1,1,1);
-
-		addToGrid(mainPanel,inputButtonsPanel,1,0,1,1,1,1);
-		
-		addToGrid(mainPanel,resultOptionsScroller,0,3,3,1,1,1);
-
-
-		addToGrid(mainPanel,previewPane,3,0,1,1,1,1);
-		
-		addToGrid(mainPanel,resultPane,3,3,1,1,1,1);
+		UniversalFunctions.addToGrid(mainPanel,editorPane,0,0,1,1,1,1);
+		UniversalFunctions.addToGrid(mainPanel,resultOptionsScroller,0,3,3,1,1,1);
+		UniversalFunctions.addToGrid(mainPanel,inputButtonsPanel,1,0,1,1,1,1);		
+		UniversalFunctions.addToGrid(mainPanel,previewPane,3,0,1,1,1,1);		
+		UniversalFunctions.addToGrid(mainPanel,resultPane,3,3,1,1,1,1);
 	
 		
 	
 		mainFrame.add(mainPanel);
-		
 		mainFrame.setSize(1000, 600);	
-		
 		mainFrame.setVisible(true);
-		
 		mainFrame.setResizable(false);
-		
-		System.out.println(inputPane.getSize());
-		
-		System.out.println(resultOptionsScroller.getSize());
-		
-	}
-	
-	private static void addToGrid(JComponent panel, JComponent component, int gridx, int gridy, int width, int height, double weightx, double weighty){
 
-		gbcon.gridx=gridx;
-		gbcon.gridy=gridy;
-		gbcon.gridwidth=width;
-		gbcon.gridheight=height;
-		gbcon.weightx=weightx;
-		gbcon.weighty=weighty;
-		
-		panel.add(component,gbcon);
 		
 	}
-	
+
 }

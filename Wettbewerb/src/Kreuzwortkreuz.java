@@ -45,7 +45,6 @@ public class Kreuzwortkreuz {
 				
 			while (scanner.hasNextLine()) {
 				readIn[i] = scanner.nextLine().toUpperCase();
-				System.out.println(readIn[i]);
 				i++;
 			}
 		}
