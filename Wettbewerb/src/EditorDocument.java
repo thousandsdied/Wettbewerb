@@ -42,18 +42,14 @@ public class EditorDocument extends MyStyledDocument{
 		
 		addDocumentListener(new DocumentListener() {
 			public void insertUpdate(DocumentEvent e){
-				if(!programChange) {
-					System.out.println(editPane.getCaretPosition());
-					checkIfValidKwk();
+				checkIfValidKwk();
 				
-				}
+				
 			}
 			
 			public void removeUpdate(DocumentEvent e) {
-				if(!programChange) {
-					System.out.println(editPane.getCaretPosition());
-					checkIfValidKwk();
-				}
+				checkIfValidKwk();
+			
 			}
 			public void changedUpdate(DocumentEvent e){}
 		});
@@ -66,47 +62,40 @@ public class EditorDocument extends MyStyledDocument{
 
 	//Überprüft, ob das Kwk-Muster stimmt und beschränkt die Eingabe
 	private void checkIfValidKwk() {
-		
-
-		 Runnable formatText= new Runnable() {
-			
+		 Runnable formatText= new Runnable() {	
 			public void run() {
 				Scanner scanner = new Scanner(allText());
 
-					String formattedText = "";
-					
-					
-					for(int i = 0 ; i<4 ; i++) {	
-						if (scanner.hasNext()) {
-							String line = scanner.nextLine();
-							formattedText += line.substring(0,Math.min(4,line.length()));
-							if (i<3) {
-								formattedText+="\n";
-								
-							}
+				String formattedText = "";
+			
+				for(int i = 0 ; i<4 ; i++) {	
+					if (scanner.hasNext()) {
+						String line = scanner.nextLine();
+						formattedText += line.substring(0,Math.min(4,line.length()));
+						if (i<3) {
+							formattedText+="\n";	
 						}
-					}	
-					programChange=true;
-					int caretPosition=editPane.getCaretPosition();
-					try {
-						
-						remove(0,getLength());
-						addText(formattedText);
-						
-
-					} catch (BadLocationException e) {
-						System.out.println("checkIfValidKwk: "+e);
 					}
-					programChange=false;
-					editPane.setCaretPosition(Math.min(19, caretPosition));
-					scanner.close();
-				}
+				}	
 				
-			
-			
-			
+				int caretPosition=editPane.getCaretPosition();
+				programChange=true;
+				
+				try {
+					remove(0,getLength());
+					addText(formattedText);
+				} 
+				
+				catch (BadLocationException e) {
+					System.out.println("checkIfValidKwk: "+e);
+				}
+					
+				programChange=false;
+				editPane.setCaretPosition(Math.min(19, caretPosition));
+				scanner.close();
+			}	
 		};
-		
+		if(!programChange) 
 		SwingUtilities.invokeLater(formatText);
 		
 		String validLetters = "[A-Za-zÖÄÜöäü.]";
@@ -115,7 +104,6 @@ public class EditorDocument extends MyStyledDocument{
 		Pattern p2 = Pattern.compile("#"+validLetters+validLetters+"#");
 		try {
 			if(p2.matcher(getText(0,4)).matches() && p1.matcher(getText(5,4)).matches() && p1.matcher(getText(10,4)).matches() && p2.matcher(getText(15,4)).matches()) {
-
 				previewPane.setStyledDocument(new PreviewDocument(allText()));
 			}
 		}
@@ -134,7 +122,7 @@ public class EditorDocument extends MyStyledDocument{
 		catch (BadLocationException e) {
 			System.out.println("load file: "+e);
 		}
-
+		programChange=false;
 		sat = new SimpleAttributeSet();
 		
 		StyleConstants.setFontFamily(sat, "Lucida Console");
@@ -154,7 +142,7 @@ public class EditorDocument extends MyStyledDocument{
 			System.out.println("load file: "+e);
 		}
 		
-		programChange=false;
+		
 	}
 
 	

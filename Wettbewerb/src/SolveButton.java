@@ -36,30 +36,40 @@ public class SolveButton extends JButton{
 				if((Integer)limitResultButton.getValue()>0) {
 				
 					Kreuzwortkreuz kwk = new Kreuzwortkreuz(editDoc,(Integer)limitResultButton.getValue());
+
 					
-					for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {
-						
-						String[] result=kwk.getPossibleCombinations().get(i);
-						
-						JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-						
-						//resultOptionButton.setPreferredSize(new Dimension(100,40));
-						
-						int currentIndex = i;
-						
-						resultOptionButton.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
-							}
-						});
-						UniversalFunctions.addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
-						
-						resultOptionsPanel.revalidate();
-						resultOptionsPanel.repaint();
-						resultPane.setStyledDocument(new ResultDocument(kwk,0));
-						
+					if(kwk.getPossibleCombinations().size()!=0) {
+					
+						for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {
+							
+							String[] result=kwk.getPossibleCombinations().get(i);
+							
+							JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
+							
+							//resultOptionButton.setPreferredSize(new Dimension(100,40));
+							
+							int currentIndex = i;
+							
+							resultOptionButton.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									resultPane.setStyledDocument(new ResultDocument(kwk,currentIndex));
+								}
+							});
+							UniversalFunctions.addToGrid(resultOptionsPanel, resultOptionButton, 0, i, 1, 1, 1, 1); 
+							
+							resultOptionsPanel.revalidate();
+							resultOptionsPanel.repaint();
+							resultPane.setStyledDocument(new ResultDocument(kwk,0));
+						}
 					}
 					
+					else {
+						
+						System.out.println(kwk.getPossibleCombinations().size());
+						UniversalFunctions.addToGrid(resultOptionsPanel, new JLabel("Es gibt keine Lösung für dies Kreuzwortkreuz"), 0, 0, 1, 1, 1, 1); 
+						resultOptionsPanel.revalidate();
+						resultOptionsPanel.repaint();
+					}
 				}
 				
 				else {

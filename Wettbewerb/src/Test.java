@@ -27,7 +27,7 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		JFrame mainFrame = new JFrame("Frame");
+		JFrame mainFrame = new JFrame("Kreuzwortkreuze");
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -81,7 +81,7 @@ public class Test {
 		
 	
 		mainFrame.add(mainPanel);
-		mainFrame.setSize(1000, 600);	
+		mainFrame.setSize(1000,600);
 		mainFrame.setVisible(true);
 		mainFrame.setResizable(false);
 

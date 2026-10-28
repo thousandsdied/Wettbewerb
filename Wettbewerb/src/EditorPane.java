@@ -19,6 +19,7 @@ public class EditorPane extends JTextPane{
 	EditorDocument styleDoc;
 
 	EditorPane(PreviewPane prevPane){
+		setPreferredSize(new Dimension(425,300));
 		
 		styleDoc = new EditorDocument(prevPane,this);
 		

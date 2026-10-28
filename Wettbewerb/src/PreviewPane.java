@@ -18,6 +18,8 @@ public class PreviewPane extends JTextPane{
 	StyledDocument styleDoc;
 	
 	PreviewPane(){	
+		setPreferredSize(new Dimension(225,300));
+		
 		styleDoc = new PreviewDocument();
 		
 		setStyledDocument(styleDoc);
