@@ -1,15 +1,9 @@
-import javax.swing.JTextPane;
-import javax.swing.*;
-import javax.swing.text.StyledDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
-import java.awt.*;
-import java.util.ArrayList;
-import javax.swing.text.DefaultStyledDocument;
+import java.awt.Color;
 import javax.swing.text.StyleConstants;
 
 public class ResultDocument extends MyStyledDocument{
-
 	String word1,word2,word3,word4,pattern1,pattern2;
 	
 	String singleLetterFormat= " %s ";
@@ -192,6 +186,7 @@ public class ResultDocument extends MyStyledDocument{
 			addText("\n  ---------------------------------------------------------------------------------\n", commonC,false);
 			
 		}
+		
 		catch(BadLocationException e){
 			System.out.println("fillResultPanel: "+e);;
 		}		

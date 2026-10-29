@@ -1,13 +1,10 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.text.StyledDocument;
 
 public class LoadButton extends JButton{
-	
 	JPanel mainPanel;
 	EditorDocument editDoc;
 
@@ -15,7 +12,6 @@ public class LoadButton extends JButton{
 		setText("Lade Textdatei");
 		this.mainPanel=mainPanel;
 		this.editDoc=editDoc;
-		
 		
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -28,9 +24,5 @@ public class LoadButton extends JButton{
 				}
 			}
 		});
-		
-		
-	}
-	
-	
+	}	
 }

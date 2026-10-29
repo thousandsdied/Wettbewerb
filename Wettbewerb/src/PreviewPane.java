@@ -1,18 +1,12 @@
-import javax.swing.*;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.BadLocationException;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
-import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.StyleConstants;
+
 
 public class PreviewPane extends JTextPane{
-
 	SimpleAttributeSet sat;
 	
 	StyledDocument styleDoc;

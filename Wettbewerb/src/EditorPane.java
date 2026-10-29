@@ -1,18 +1,6 @@
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.*;
-import javax.swing.text.StyledDocument;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.StyleConstants;
+import javax.swing.BorderFactory;
+import javax.swing.JTextPane;
+import java.awt.Dimension;
 
 
 public class EditorPane extends JTextPane{

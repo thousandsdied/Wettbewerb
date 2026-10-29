@@ -1,4 +1,3 @@
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,8 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
 
-public class SolveButton extends JButton{
-	
+public class SolveButton extends JButton{	
 	EditorDocument editDoc;
 	
 	JSpinner limitResultButton ;
@@ -19,8 +17,7 @@ public class SolveButton extends JButton{
 	JTextPane resultPane;
 	
 
-	public SolveButton(EditorDocument editDoc,JSpinner limitResultButton,JPanel resultOptionsPanel,JTextPane resultPane) {
-		
+	public SolveButton(EditorDocument editDoc,JSpinner limitResultButton,JPanel resultOptionsPanel,JTextPane resultPane) {		
 		this.editDoc=editDoc;
 		this.limitResultButton=limitResultButton;
 		this.resultOptionsPanel=resultOptionsPanel;
@@ -33,20 +30,14 @@ public class SolveButton extends JButton{
 				
 				resultOptionsPanel.removeAll();
 				
-				if((Integer)limitResultButton.getValue()>0) {
-				
+				if((Integer)limitResultButton.getValue()>0) {		
 					Kreuzwortkreuz kwk = new Kreuzwortkreuz(editDoc,(Integer)limitResultButton.getValue());
-
-					
-					if(kwk.getPossibleCombinations().size()!=0) {
-					
-						for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {
-							
+			
+					if(kwk.getPossibleCombinations().size()!=0) {			
+						for(int i = 0 ; i<(Integer) kwk.getPossibleCombinations().size() ; i++) {					
 							String[] result=kwk.getPossibleCombinations().get(i);
 							
 							JButton resultOptionButton = new JButton(result[0]+", "+result[1]+", "+result[2]+", "+result[3]);
-							
-							//resultOptionButton.setPreferredSize(new Dimension(100,40));
 							
 							int currentIndex = i;
 							
@@ -63,8 +54,7 @@ public class SolveButton extends JButton{
 						}
 					}
 					
-					else {
-						
+					else {		
 						System.out.println(kwk.getPossibleCombinations().size());
 						UniversalFunctions.addToGrid(resultOptionsPanel, new JLabel("Es gibt keine Lösung für dies Kreuzwortkreuz"), 0, 0, 1, 1, 1, 1); 
 						resultOptionsPanel.revalidate();
@@ -78,13 +68,6 @@ public class SolveButton extends JButton{
 					resultOptionsPanel.repaint();
 				}
 			}
-		});
-		
-		
-		
-		
-		
+		});		
 	}
-	
-	
 }

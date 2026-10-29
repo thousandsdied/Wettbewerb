@@ -1,32 +1,15 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 
-
-public class Test {
-		
-	private static GridBagConstraints gbcon = new GridBagConstraints();
-	
+public class Test {	
 	public static void main(String[] args) {
-		
 		JFrame mainFrame = new JFrame("Kreuzwortkreuze");
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,14 +18,13 @@ public class Test {
 		
 		mainPanel.setLayout(new GridBagLayout());
 
-		
 		//Zeigt eine mögliche Lösung visuell an
 		ResultPane resultPane = new ResultPane();
 		
-		//Zeigt das Kwk visuall an
+		//Zeigt das Kreuzwortkreuz visuall an
 		PreviewPane previewPane = new PreviewPane();
 		
-		//Bearbeibares Textfeld, mit dem man manuell das Kwk bearbeiten kann
+		//Bearbeibares Textfeld, mit dem man manuell das Kreuzwortkreuz bearbeiten kann
 		EditorPane editorPane = new EditorPane(previewPane);
 
 		//Limitiert die Anzahl an ausgegebenen Lösungen, um Zeit/Ressourcen zu sparen
@@ -50,7 +32,7 @@ public class Test {
 		JSpinner limitResultButton = new JSpinner();
 		limitResultButton.setValue(10);
 		
-		//Zeigt mögliche Lösungen als 4 Wörter an, raufclicken um visuelle Lösung anzuzeigen
+		//Zeigt mögliche Lösungen als Button mit den vier Lösungswörtern an, raufclicken um visuelle Lösung anzuzeigen
 		JPanel resultOptionsPanel = new JPanel();
 		resultOptionsPanel.setLayout(new GridBagLayout());
 		JScrollPane resultOptionsScroller = new JScrollPane(resultOptionsPanel);
@@ -77,15 +59,10 @@ public class Test {
 		UniversalFunctions.addToGrid(mainPanel,inputButtonsPanel,1,0,1,1,1,1);		
 		UniversalFunctions.addToGrid(mainPanel,previewPane,3,0,1,1,1,1);		
 		UniversalFunctions.addToGrid(mainPanel,resultPane,3,3,1,1,1,1);
-	
-		
-	
+
 		mainFrame.add(mainPanel);
 		mainFrame.setSize(1000,600);
 		mainFrame.setVisible(true);
-		mainFrame.setResizable(false);
-
-		
+		mainFrame.setResizable(false);	
 	}
-
 }

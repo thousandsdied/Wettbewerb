@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 
 public class Kreuzwortkreuz {
-	
 	private EditorDocument kreuzEditor;
 	
 	private String[] readIn = new String[4];
@@ -18,8 +17,6 @@ public class Kreuzwortkreuz {
 	
 	private int limit;
 	
-	//Parametrisierter Konstruktur mit Dateiangabe
-	
 	public Kreuzwortkreuz(EditorDocument kreuzEditor, int limit) {
 		this.kreuzEditor=kreuzEditor;
 		this.limit=limit;
@@ -27,7 +24,6 @@ public class Kreuzwortkreuz {
 		createPatterns();
 		createPossibleWordLists();
 		findWords();
-	
 	}	
 	
 	public ArrayList<String[]> getPossibleCombinations(){return possibleCombinations;}
@@ -36,8 +32,7 @@ public class Kreuzwortkreuz {
 	
 	//Einlesen der gegebenen Datei. Gibt die Zeilen der Datei als String-Array wieder.
 	
-	public void read() {
-		
+	public void read() {	
 		String[] readIn = new String[4];
 		
 		try (Scanner scanner = new Scanner(kreuzEditor.allText())) {
@@ -48,6 +43,7 @@ public class Kreuzwortkreuz {
 				i++;
 			}
 		}	
+		
 		this.readIn=readIn;
 	}
 	
@@ -66,18 +62,14 @@ public class Kreuzwortkreuz {
 	
 	//Erstellt für jedes Wort eine ArrayList mit möglichen Wörtern. Dabei können Wörter, bei denen Anfangs- und Endbuchstaben nicht passen, direkt aussortiert werden.
 	
-	private ArrayList<ArrayList<String>> createPossibleWordLists(){
-		
+	private ArrayList<ArrayList<String>> createPossibleWordLists(){	
 		ArrayList<ArrayList<String>> wordLists = new ArrayList<ArrayList<String>>();
 		
-		for (int i = 0 ; i<4 ; i++) {
-			
-			try(Scanner scanner = new Scanner(new File("wortliste.txt"))) {
-				
+		for (int i = 0 ; i<4 ; i++) {	
+			try(Scanner scanner = new Scanner(new File("wortliste.txt"))) {	
 				wordLists.add(new ArrayList<String>());
 				
-				while (scanner.hasNextLine()) {
-					
+				while (scanner.hasNextLine()) {		
 					String scanned = scanner.nextLine();
 					
 					if(!(patterns[i].charAt(0)!='.' && patterns[i].charAt(0)!=scanned.charAt(0) || patterns[i].charAt(3)!='.' && patterns[i].charAt(3)!=scanned.charAt(3))) {
@@ -112,7 +104,6 @@ public class Kreuzwortkreuz {
 		int counter = 0;
 		
 		for(String a : wordLists.get(0)) {
-	
 			if (p1.charAt(1)==a.charAt(1)) {cTemp=cTemp.substring(0,1)+"."+cTemp.substring(2,4); }
 			
 			else if (p1.charAt(1)=='.') {cTemp=cTemp.substring(0,1)+a.charAt(1)+cTemp.substring(2,4);}
@@ -165,10 +156,12 @@ public class Kreuzwortkreuz {
 							}					
 						}																		
 					}																						
-				}			
+				}	
+				
 				cTemp2=cTemp;
 				dTemp2=dTemp;					
-			}		
+			}	
+			
 			cTemp=p3;
 			dTemp=p4;		
 		}					
