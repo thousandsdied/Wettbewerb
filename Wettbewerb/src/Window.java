@@ -8,11 +8,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 
-public class Test {	
-	public static void main(String[] args) {
-		JFrame mainFrame = new JFrame("Kreuzwortkreuze");
-		
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+public class Window extends JFrame{	
+	public Window() {
+		setTitle("Kreuzwortkreuze");
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel mainPanel = new JPanel();
 		
@@ -60,9 +60,8 @@ public class Test {
 		UniversalFunctions.addToGrid(mainPanel,previewPane,3,0,1,1,1,1);		
 		UniversalFunctions.addToGrid(mainPanel,resultPane,3,3,1,1,1,1);
 
-		mainFrame.add(mainPanel);
-		mainFrame.setSize(1000,600);
-		mainFrame.setVisible(true);
-		mainFrame.setResizable(false);	
+		add(mainPanel);
+		setSize(1000,600);
+		setResizable(false);	
 	}
 }
